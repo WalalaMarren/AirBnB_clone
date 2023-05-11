@@ -30,7 +30,7 @@ class BaseModel():
         '''
         if kwargs:
             # Call function to prepare kwargs for instantiation
-            self.transform_kwargs(kwargs)
+            self.to_instance(kwargs)
             # Set instance attributes from kwargs items
 
             self.__dict__.update(kwargs)
