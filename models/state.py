@@ -4,7 +4,7 @@ from models.BaseModel import BaseModel
 
 
 class State(BaseModel):
-    #sets the name attribute to an empty string
+    '''sets the name attribute to an empty string'''
     name = ""
 
     """constructor method for the State class"""
