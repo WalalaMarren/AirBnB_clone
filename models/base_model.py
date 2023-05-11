@@ -13,19 +13,26 @@ Typical Usage:
 Attributes: None
 '''
 import uuid
-from datetime import datetime
 import json
+from models import storage
+from datetime import datetime
 
 
 class BaseModel():
     '''Defines the base attributes and methods for sub-classes'''
 
     def __init__(self, *args, **kwargs):
-        '''Initialise the base class with or without kwargs'''
+        '''Initialise the base class with or without kwargs
+        Attributes:
+            id : the class id (str)
+            created_at : time of creation (datetime)
+            updated_at : time of latest change (datetime)
+        '''
         if kwargs:
             # Call function to prepare kwargs for instantiation
             self.transform_kwargs(kwargs)
             # Set instance attributes from kwargs items
+
             self.__dict__.update(kwargs)
         else:
             # Generate a unique identifier for each base object
@@ -34,6 +41,8 @@ class BaseModel():
             self.created_at = datetime.now()
             # Record time and update later when changes are made
             self.updated_at = datetime.now()
+            # Adds class instance to instance storer
+            storage.new(self)
 
     def __str__(self):
         '''Displays a string representation of a base object'''
@@ -41,8 +50,12 @@ class BaseModel():
                 f"({self.id}) {self.__dict__}")
 
     def save(self):
-        '''Updates "updated_at" every time the object is changed'''
+        '''
+        Updates "updated_at" every time the object is changed
+        and store the instance into a JSON file
+        '''
         self.updated_at = datetime.now()
+        storage.save()
 
     def to_dict(self):
         '''Creates a dictionary representation of the a base object.
@@ -51,23 +64,27 @@ class BaseModel():
         '''
         # Convert datetime objects to strings
         # and ensure conversion is attempted only once
-        if (type(self.created_at) == datetime):
-            self.created_at = self.created_at.isoformat()
-        if (type(self.updated_at) == datetime):
-            self.updated_at = self.updated_at.isoformat()
-        self.__dict__.update({"__class__": self.__class__.__name__})
-        return (self.__dict__)
+        return_dict = self.__dict__.copy()
+        if (type(return_dict["created_at"]) == datetime):
+            return_dict["created_at"] = return_dict["created_at"].isoformat()
+        if (type(return_dict["updated_at"]) == datetime):
+            return_dict["updated_at"] = return_dict["updated_at"].isoformat()
+        # Add a new attribute containing the name of the class
+        if not return_dict.get("__class__"):
+            class_name = self.__class__.__name__
+            return_dict.update({"__class__": class_name})
+        return (return_dict)
 
-    def transform_kwargs(self, instance_dict):
-        '''Prepares kwargs for instantiation.
-        This method is called at the instantiation
-        of a class with kwargs'''
+    def to_instance(self, instance_dict):
+        '''Prepares kwargs in instance dict for instantiation.
+           This method is called at the instantiation of a class with kwargs
+        '''
         # Remove the __class__ attribute
         try:
             instance_dict.pop("__class__")
-        except:
+        except Exception:
+            # Do nothing
             pass
-        # Convert datetime arguments from string to datetime
         for key in instance_dict.keys():
             if ((key == "created_at") or (key == "updated_at")):
                 instance_dict[key] = datetime.fromisoformat(instance_dict[key])
