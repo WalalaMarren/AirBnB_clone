@@ -4,6 +4,5 @@ from models.BaseModel import BaseModel
 
 
 class State(BaseModel):
-    '''sets the name attribute to an empty string'''
-
+    '''Defines the attributes and methods for a state'''
     name = ""

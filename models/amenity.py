@@ -4,6 +4,5 @@ from models.base_model import BaseModel
 
 
 class Amenity(BaseModel):
-    '''sets the name attribute to an empty string'''
-
+    '''Defines the amenities in a room'''
     name = ""

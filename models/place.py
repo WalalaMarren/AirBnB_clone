@@ -1,13 +1,15 @@
 #!/usr/bin/python3
 """class Place that inherits from BaseModel"""
-from models.BaseModel import BaseModel
+from models.base_model import BaseModel
+from models.city import City
+from models.user import User
+from models.amenity import Amenity
 
 
 class Place(BaseModel):
-    '''sets the attributes to empty strings'''
-
-    city_id = ""
-    user_id = ""
+    '''Defines the properties and  attributes of a room'''
+    city_id = City.id
+    user_id = User.id
     name = ""
     description = ""
     number_rooms = 0

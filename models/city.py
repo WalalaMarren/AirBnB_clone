@@ -5,7 +5,6 @@ from models.state import State
 
 
 class City(BaseModel):
-    '''sets the name and state_id attributes to empty strings'''
-
+    '''Defines a city with a name and id'''
     state_id = State.id
     name = ""
