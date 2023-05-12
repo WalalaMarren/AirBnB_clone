@@ -76,12 +76,16 @@ class FileStorage():
 
         # Model imported here to prevent circular import error
         from models.base_model import BaseModel
+        from models.user import User
         try:
             # Get key and dict object from loaded data
             for obj_id in json_obj.keys():
                 obj_dict = json_obj[obj_id]
                 # Create a BaseModel instance with dict object
-                obj_instance = BaseModel(**obj_dict)
+                if (obj_dict["__class__"] == "BaseModel"):
+                    obj_instance = BaseModel(**obj_dict)
+                if (obj_dict["__class__"] == "User"):
+                    obj_instance = User(**obj_dict)
                 # Add key : instance pair to __object
                 self.__object.update({obj_id: obj_instance})
         except Exception:
