@@ -1,9 +1,14 @@
 #!/usr/bin/python3
 """Class instance that inherits from the Cmd class"""
 import cmd
-from models.base_model import BaseModel
-from models.user import User
 from models import storage
+from models.user import User
+from models.city import City
+from models.place import Place
+from models.state import State
+from models.review import Review
+from models.amenity import Amenity
+from models.base_model import BaseModel
 
 
 class HBNBCommand(cmd.Cmd):
@@ -37,16 +42,16 @@ class HBNBCommand(cmd.Cmd):
             return (BaseModel())
         elif (class_name == "User"):
             return (User())
-        # elif (class_name == "Place"):
-        #     return (Place())
-        # elif (class_name == "State"):
-        #     return (State())
-        # elif (class_name == "City"):
-        #     return (City()):
-        # elif (class_name == "Amenity"):
-        #     return (Amenity())
-        # elif (class_name == "Review"):
-        #     return (Review())
+        elif (class_name == "Place"):
+            return (Place())
+        elif (class_name == "State"):
+            return (State())
+        elif (class_name == "City"):
+            return (City())
+        elif (class_name == "Amenity"):
+            return (Amenity())
+        elif (class_name == "Review"):
+            return (Review())
 
     def do_create(self, line):
         '''

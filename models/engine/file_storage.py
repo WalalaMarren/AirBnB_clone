@@ -17,7 +17,6 @@ Attributes:
 '''
 import copy
 import json
-from datetime import datetime
 
 
 class FileStorage():
@@ -89,21 +88,26 @@ class FileStorage():
 
     def create_instance(self, obj):
         '''Deterimine the right instance to create'''
-        from models.base_model import BaseModel
         from models.user import User
+        from models.city import City
+        from models.place import Place
+        from models.state import State
+        from models.review import Review
+        from models.amenity import Amenity
+        from models.base_model import BaseModel
 
         class_name = obj["__class__"]
         if (class_name == "BaseModel"):
             return (BaseModel(**obj))
         elif (class_name == "User"):
             return (User(**obj))
-        # elif (class_name == "Place"):
-        #     return (Place(**obj))
-        # elif (class_name == "State"):
-        #     return (State(**obj))
-        # elif (class_name == "City"):
-        #     return (City(**obj)):
-        # elif (class_name == "Amenity"):
-        #     return (Amenity(**obj))
-        # elif (class_name == "Review"):
-        #     return (Review(**obj))
+        elif (class_name == "Place"):
+            return (Place(**obj))
+        elif (class_name == "State"):
+            return (State(**obj))
+        elif (class_name == "City"):
+            return (City(**obj))
+        elif (class_name == "Amenity"):
+            return (Amenity(**obj))
+        elif (class_name == "Review"):
+            return (Review(**obj))
