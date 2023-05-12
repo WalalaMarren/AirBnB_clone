@@ -55,6 +55,29 @@ class HBNBCommand(cmd.Cmd):
                 self.create_class(line)
                 storage.save()
 
+    def verify_args(self, arg_line):
+        if (arg_line == ""):
+            print("** class name missing **")
+            return (0)
+        args = arg_line.split()
+        if (args[0] not in self.classes):
+            print("** class doesn't exist **")
+            return (0)
+        if (len(args) != 2):
+            print("** instance id missing **")
+            return (0)
+        return (1)
+
+    def do_show(self, line):
+        if self.verify_args(line):
+            class_name, id = line.split()
+            class_key = class_name + "." + id
+            class_obj = storage.all()
+            if (class_obj.get(class_key)):
+                print(class_obj[class_key])
+            else:
+                print("** no instance found **")
+
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
