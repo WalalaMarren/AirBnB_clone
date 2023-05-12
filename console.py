@@ -51,7 +51,7 @@ class HBNBCommand(cmd.Cmd):
     def do_create(self, line):
         '''
         Verifies the argument passed is a valid class, calls
-        a function to create an instance of the class and stores 
+        a function to create an instance of the class and stores
         the instance created to a JSON file
         '''
         if (line == ""):
@@ -66,7 +66,7 @@ class HBNBCommand(cmd.Cmd):
                 storage.save()
 
     def verify_args(self, arg_line):
-        '''Verifies the number and validity of arguments passed''' 
+        '''Verifies the number and validity of arguments passed'''
         if (arg_line == ""):
             print("** class name missing **")
             return (0)
@@ -100,7 +100,7 @@ class HBNBCommand(cmd.Cmd):
         inst_dict_key = self.verify_key(line)
         if (inst_dict_key):
             inst_key, inst_dict = inst_dict_key
-            inst = inst_dict[inst_key] 
+            inst = inst_dict[inst_key]
             print(inst)
 
     def do_destroy(self, line):
@@ -139,7 +139,7 @@ class HBNBCommand(cmd.Cmd):
         '''Determine what type to store the attribute value as'''
         # Checks for strings with and without spaces
         if (attr_val.startswith('"') & attr_val.endswith('"')):
-            if (attr_val.isnumeric() == False):
+            if (attr_val.isnumeric() is False):
                 attr_val = attr_val[1:-1]
         if (attr_val.startswith('"') & (not attr_val.endswith('"'))):
             try:
@@ -148,7 +148,7 @@ class HBNBCommand(cmd.Cmd):
             except Exception:
                 attr_val = attr_val[1:]
         # Checks for integers
-        elif (attr_val.isnumeric() == True):
+        elif (attr_val.isnumeric() is True):
             attr_val = int(attr_val)
         # Checks for floating point numbers
         else:
@@ -158,7 +158,7 @@ class HBNBCommand(cmd.Cmd):
             except ValueError:
                 pass
         return (attr_val)
-    
+
     def verify_attr_name_val(self, args):
         '''Verifies the attribute and and value
         to add to an instance from a list of arguments'''
@@ -168,7 +168,7 @@ class HBNBCommand(cmd.Cmd):
                 args_line = " ".join(arg for arg in args[:2])
             except Exception:
                 args_line = " ".join(arg for arg in args)
-            inst_dict_key = self.verify_key(args_line) 
+            inst_dict_key = self.verify_key(args_line)
             if (not inst_dict_key):
                 return (0)
         if (len(args) < 3):
@@ -180,10 +180,10 @@ class HBNBCommand(cmd.Cmd):
         attr = args[2]
         val = self.check_val_type(args[3], args)
         return (inst_dict_key, attr, val)
-    
+
     def do_update(self, line):
         '''
-        Updates an intance with added or updated 
+        Updates an intance with added or updated
         attributes and saves the changes to a file
         '''
         args = line.split()
@@ -194,6 +194,7 @@ class HBNBCommand(cmd.Cmd):
             attr, attr_val = inst_dict_key_attr_val[1:]
             inst.__dict__.update({attr: attr_val})
             storage.save()
-            
+
+
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
