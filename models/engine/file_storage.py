@@ -75,19 +75,35 @@ class FileStorage():
         '''Changes object values to instantiable objects'''
 
         # Model imported here to prevent circular import error
-        from models.base_model import BaseModel
-        from models.user import User
         try:
             # Get key and dict object from loaded data
             for obj_id in json_obj.keys():
                 obj_dict = json_obj[obj_id]
-                # Create a BaseModel instance with dict object
-                if (obj_dict["__class__"] == "BaseModel"):
-                    obj_instance = BaseModel(**obj_dict)
-                if (obj_dict["__class__"] == "User"):
-                    obj_instance = User(**obj_dict)
+                #  Create an instance with each dict object
+                obj_instance = self.create_instance(obj_dict)
                 # Add key : instance pair to __object
                 self.__object.update({obj_id: obj_instance})
         except Exception:
             # Do nothing
             pass
+
+    def create_instance(self, obj):
+        '''Deterimine the right instance to create'''
+        from models.base_model import BaseModel
+        from models.user import User
+
+        class_name = obj["__class__"]
+        if (class_name == "BaseModel"):
+            return (BaseModel(**obj))
+        elif (class_name == "User"):
+            return (User(**obj))
+        # elif (class_name == "Place"):
+        #     return (Place(**obj))
+        # elif (class_name == "State"):
+        #     return (State(**obj))
+        # elif (class_name == "City"):
+        #     return (City(**obj)):
+        # elif (class_name == "Amenity"):
+        #     return (Amenity(**obj))
+        # elif (class_name == "Review"):
+        #     return (Review(**obj))
