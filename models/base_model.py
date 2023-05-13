@@ -80,16 +80,17 @@ class BaseModel():
             return_dict.update({"__class__": class_name})
         return (return_dict)
 
-    def to_instance(self, instance_dict):
+    def to_instance(self, inst_dict):
         '''Prepares kwargs in instance dict for instantiation.
            This method is called at the instantiation of a class with kwargs
         '''
         # Remove the __class__ attribute
         try:
-            instance_dict.pop("__class__")
+            ins_dict.pop("__class__")
         except Exception:
             # Do nothing
             pass
-        for key in instance_dict.keys():
+        for key in ins_dict.keys():
             if ((key == "created_at") or (key == "updated_at")):
-                instance_dict[key] = datetime.fromisoformat(instance_dict[key])
+                time = ins_dict[key]
+                ins_dic[key] = datetime.strptime(time, "%Y-%m-%dT%H:%M:%S.%f")
