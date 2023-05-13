@@ -19,7 +19,13 @@ from datetime import datetime
 
 
 class BaseModel():
-    '''Defines the base attributes and methods for sub-classes'''
+    '''Defines the base attributes and methods for sub-classes
+
+    Methods:
+        to_dict : returns dictionary representation of instance
+        save : saves an instance to a file
+        to_instance : transforms loaded data to instantiable form
+    '''
 
     def __init__(self, *args, **kwargs):
         '''Initialise the base class with or without kwargs
