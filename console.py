@@ -1,4 +1,4 @@
-###!/usr/bin/python3
+#!/usr/bin/python3
 """Class instance that inherits from the Cmd class"""
 import cmd
 from models import storage
