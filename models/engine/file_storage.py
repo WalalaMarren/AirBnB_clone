@@ -76,8 +76,7 @@ class FileStorage():
         # Model imported here to prevent circular import error
         try:
             # Get key and dict object from loaded data
-            for inst_key in json_obj.keys():
-                inst_obj = json_obj[inst_key]
+            for inst_key, inst_obj in json_obj.items():
                 #  Create an instance with each dict object
                 inst = self.create_instance(inst_obj)
                 # Add key : instance pair to __object

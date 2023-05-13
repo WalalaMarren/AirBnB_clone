@@ -12,8 +12,10 @@ Typical Usage:
 
 Attributes: None
 '''
+
 import uuid
 import json
+from models import storage
 from datetime import datetime
 
 
@@ -47,7 +49,7 @@ class BaseModel():
             # Record time and update later when changes are made
             self.updated_at = datetime.now()
             # Adds class instance to instance storer
-            # storage.new(self)
+            storage.new(self)
 
     def __str__(self):
         '''Displays a string representation of a base object'''
@@ -60,7 +62,7 @@ class BaseModel():
         and store the instance into a JSON file
         '''
         self.updated_at = datetime.now()
-        # storage.save()
+        storage.save()
 
     def to_dict(self):
         '''Creates a dictionary representation of the a base object.
@@ -80,7 +82,7 @@ class BaseModel():
             return_dict.update({"__class__": class_name})
         return (return_dict)
 
-    def to_instance(self, inst_dict):
+    def to_instance(self, ins_dict):
         '''Prepares kwargs in instance dict for instantiation.
            This method is called at the instantiation of a class with kwargs
         '''
@@ -93,4 +95,4 @@ class BaseModel():
         for key in ins_dict.keys():
             if ((key == "created_at") or (key == "updated_at")):
                 time = ins_dict[key]
-                ins_dic[key] = datetime.strptime(time, "%Y-%m-%dT%H:%M:%S.%f")
+                ins_dict[key] = datetime.strptime(time, "%Y-%m-%dT%H:%M:%S.%f")

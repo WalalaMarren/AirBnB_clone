@@ -125,8 +125,7 @@ class HBNBCommand(cmd.Cmd):
 
         if (line == ""):
             inst_list = []
-            for inst_key in inst_objs.keys():
-                inst = inst_objs[inst_key]
+            for inst_key, inst in inst_objs.items():
                 inst_list.append(inst.__str__())
             print(inst_list)
 
