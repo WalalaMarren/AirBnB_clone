@@ -18,6 +18,7 @@ class HBNBCommand(cmd.Cmd):
 
     classes = ["BaseModel", "User", "Place", "State",
                "City", "Amenity", "Review"]
+    # classes = dir(self)
     prompt = '(hbnb) '
 
     def do_EOF(self, arg):
@@ -88,13 +89,13 @@ class HBNBCommand(cmd.Cmd):
     def verify_key(self, line):
         '''Verifies that an instance with the class name and id exists'''
         if self.verify_args(line):
-            class_name, class_id = line.split()
-            inst_key = class_name + "." + class_id
-            inst_dict = storage.all()
-            if (inst_dict.get(inst_key) is None):
+            class_name, inst_id = line.split()
+            inst_key = class_name + "." + inst_id
+            inst_objs = storage.all()
+            if (inst_objs.get(inst_key) is None):
                 print("** no instance found **")
                 return (None)
-            return (inst_key, inst_dict)
+            return (inst_key, inst_objs)
         return (0)
 
     def do_show(self, line):
@@ -102,18 +103,18 @@ class HBNBCommand(cmd.Cmd):
         Prints the string representation of an
         instance based on the class name and id
         '''
-        inst_dict_key = self.verify_key(line)
-        if (inst_dict_key):
-            inst_key, inst_dict = inst_dict_key
-            inst = inst_dict[inst_key]
+        inst_objs_key = self.verify_key(line)
+        if (inst_objs_key):
+            inst_key, inst_objs = inst_objs_key
+            inst = inst_objs[inst_key]
             print(inst)
 
     def do_destroy(self, line):
         '''Deletes an instance based on the class name and id'''
-        inst_dict_key = self.verify_key(line)
-        if (inst_dict_key):
-            inst_key, inst_dict = inst_dict_key
-            inst_dict.pop(inst_key)
+        inst_objs_key = self.verify_key(line)
+        if (inst_objs_key):
+            inst_key, inst_objs = inst_objs_key
+            inst_objs.pop(inst_key)
             storage.save()
 
     def do_all(self, line):
@@ -121,20 +122,20 @@ class HBNBCommand(cmd.Cmd):
         Prints the string representation of all instances of a
         class specified by the class name and id
         '''
-        inst_dict = storage.all()
+        inst_objs = storage.all()
         if (line == ""):
             inst_list = []
-            for inst_key in inst_dict.keys():
-                inst = inst_dict[inst_key]
+            for inst_key in inst_objs.keys():
+                inst = inst_objs[inst_key]
                 inst_list.append(inst.__str__())
             print(inst_list)
         else:
             if (line in self.classes):
                 inst_list = []
-                for inst_key in inst_dict.keys():
-                    class_name, class_id = inst_key.split(".")
+                for inst_key in inst_objs.keys():
+                    class_name, inst_id = inst_key.split(".")
                     if (class_name == line):
-                        inst = inst_dict[inst_key]
+                        inst = inst_objs[inst_key]
                         inst_list.append(inst.__str__())
                 print(inst_list)
             else:
@@ -167,14 +168,14 @@ class HBNBCommand(cmd.Cmd):
     def verify_attr_name_val(self, args):
         '''Verifies the attribute and and value
         to add to an instance from a list of arguments'''
-        inst_dict_key = None
+        inst_objs_key = None
         if (((len(args) <= 2)) or (len(args) > 2)):
             try:
                 args_line = " ".join(arg for arg in args[:2])
             except Exception:
                 args_line = " ".join(arg for arg in args)
-            inst_dict_key = self.verify_key(args_line)
-            if (not inst_dict_key):
+            inst_objs_key = self.verify_key(args_line)
+            if (not inst_objs_key):
                 return (0)
         if (len(args) < 3):
             print("** attribute name missing **")
@@ -184,7 +185,7 @@ class HBNBCommand(cmd.Cmd):
             return (0)
         attr = args[2]
         val = self.check_val_type(args[3], args)
-        return (inst_dict_key, attr, val)
+        return (inst_objs_key, attr, val)
 
     def do_update(self, line):
         '''
@@ -192,11 +193,11 @@ class HBNBCommand(cmd.Cmd):
         attributes and saves the changes to a file
         '''
         args = line.split()
-        inst_dict_key_attr_val = self.verify_attr_name_val(args)
-        if (inst_dict_key_attr_val):
-            inst_key, inst_dict = inst_dict_key_attr_val[0]
-            inst = inst_dict[inst_key]
-            attr, attr_val = inst_dict_key_attr_val[1:]
+        inst_objs_key_attr_val = self.verify_attr_name_val(args)
+        if (inst_objs_key_attr_val):
+            inst_key, inst_objs = inst_objs_key_attr_val[0]
+            inst = inst_objs[inst_key]
+            attr, attr_val = inst_objs_key_attr_val[1:]
             inst.__dict__.update({attr: attr_val})
             storage.save()
 

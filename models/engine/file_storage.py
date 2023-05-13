@@ -43,21 +43,21 @@ class FileStorage():
         '''Returns the class __object attribute'''
         return (self.__object)
 
-    def new(self, class_obj):
+    def new(self, inst):
         '''Adds an instance object to __object'''
-        class_name = class_obj.__class__.__name__
-        class_id = class_obj.id
-        class_key = class_name + "." + class_id
-        self.__object.update({class_key: class_obj})
+        class_name = inst.__class__.__name__
+        inst_id = inst.id
+        inst_key = class_name + "." + inst_id
+        self.__object.update({inst_key: inst})
 
     def save(self):
         '''Serializes instances to JSON file'''
         json_object = {}
         with open(self.__file_path, "w") as file:
-            for class_key in self.__object:
-                class_obj = self.__object[class_key]
-                class_dict = class_obj.to_dict()
-                json_object[class_key] = class_dict
+            for inst_key in self.__object:
+                inst = self.__object[inst_key]
+                inst_dict = inst.to_dict()
+                json_object[inst_key] = inst_dict
             json.dump(json_object, file)
 
     def reload(self):
@@ -76,12 +76,12 @@ class FileStorage():
         # Model imported here to prevent circular import error
         try:
             # Get key and dict object from loaded data
-            for obj_id in json_obj.keys():
-                obj_dict = json_obj[obj_id]
+            for inst_key in json_obj.keys():
+                inst_obj = json_obj[inst_key]
                 #  Create an instance with each dict object
-                obj_instance = self.create_instance(obj_dict)
+                inst = self.create_instance(inst_obj)
                 # Add key : instance pair to __object
-                self.__object.update({obj_id: obj_instance})
+                self.__object.update({inst_key: inst})
         except Exception:
             # Do nothing
             pass
