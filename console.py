@@ -145,23 +145,44 @@ class HBNBCommand(cmd.Cmd):
     def check_val_type(self, attr_val, args=None):
         '''Determine what type to store the attribute value as'''
 
-        # Checks for strings with and without spaces
-        if (attr_val.startswith('"') & attr_val.endswith('"')):
-            if (attr_val.isnumeric() is False):
-                attr_val = attr_val[1:-1]
-                return (attr_val)
+        print("This is the attriubute we were given \n", attr_val)
+        has_dqb = attr_val.startswith('"')
+        has_dqe = attr_val.endswith('"')
+        has_sqb = attr_val.startswith("'")
+        has_sqe = attr_val.endswith("'")
 
-        if (attr_val.startswith('"') & (not attr_val.endswith('"'))):
-            try:
-                next_val_str = args[4]
-                attr_val = attr_val[1:] + " " + args[4][:-1]
-            except Exception:
-                attr_val = attr_val[1:]
-                return (attr_val)
+        # Normal arguments
+        if ((not has_dqb) & (not has_dqe)):
+            return (attr_val)
 
-        # Checks for integers
-        if (attr_val.isnumeric() is True):
-            attr_val = int(attr_val)
+        # Argument starts and ends with single or double quotes
+        if ((has_dqb & has_dqe) or (has_sqb & has_sqe)):
+            print("Has all quotes")
+            return (attr_val[1:-1])
+
+        # Argument starts with but doesn't end with single or double quotes
+        if ((has_dqb or has_sqb) and (not has_dqe or not has_sqe)):
+            full_str = attr_val[1:]
+            i = 1
+            args_exist = True
+
+            while (args_exist):
+                try:
+                    next_word = args[3 + i]
+                except IndexError:
+                    return (full_str)
+                if (next_word.endswith('"') or next_word.endswith("'")):
+                    full_str += " " + next_word[:-1]
+                    return (full_str)
+                else:
+                    full_str += " " + next_word
+                    i += 1
+
+        # Check for integer
+        try:
+            attr_val_int = int(attr_value)
+            return (attr_val_int)
+        except Exception:
             return (attr_val)
 
         # Checks for floating point numbers
@@ -170,8 +191,7 @@ class HBNBCommand(cmd.Cmd):
                 attr_val_float = float(attr_val)
                 return (attr_val_float)
             except ValueError:
-                pass
-        return (attr_val)
+                return (attr_val)
 
     def verify_attr_name_val(self, args):
         '''Verifies the attribute and and value
