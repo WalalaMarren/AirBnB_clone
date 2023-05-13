@@ -18,7 +18,6 @@ class HBNBCommand(cmd.Cmd):
 
     classes = ["BaseModel", "User", "Place", "State",
                "City", "Amenity", "Review"]
-    # classes = dir(self)
     prompt = '(hbnb) '
 
     def do_EOF(self, arg):
