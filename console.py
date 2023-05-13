@@ -122,13 +122,16 @@ class HBNBCommand(cmd.Cmd):
         class specified by the class name and id
         '''
         inst_objs = storage.all()
+
         if (line == ""):
             inst_list = []
             for inst_key in inst_objs.keys():
                 inst = inst_objs[inst_key]
                 inst_list.append(inst.__str__())
             print(inst_list)
+
         else:
+
             if (line in self.classes):
                 inst_list = []
                 for inst_key in inst_objs.keys():
@@ -142,21 +145,28 @@ class HBNBCommand(cmd.Cmd):
 
     def check_val_type(self, attr_val, args=None):
         '''Determine what type to store the attribute value as'''
+
         # Checks for strings with and without spaces
         if (attr_val.startswith('"') & attr_val.endswith('"')):
             if (attr_val.isnumeric() is False):
                 attr_val = attr_val[1:-1]
+                return (attr_val)
+
         if (attr_val.startswith('"') & (not attr_val.endswith('"'))):
             try:
                 next_val_str = args[4]
                 attr_val = attr_val[1:] + " " + args[4][:-1]
             except Exception:
                 attr_val = attr_val[1:]
+                return (attr_val)
+
         # Checks for integers
-        elif (attr_val.isnumeric() is True):
+        if (attr_val.isnumeric() is True):
             attr_val = int(attr_val)
+            return (attr_val)
+
         # Checks for floating point numbers
-        else:
+        if ("." in attr_val):
             try:
                 attr_val_float = float(attr_val)
                 return (attr_val_float)
@@ -167,7 +177,9 @@ class HBNBCommand(cmd.Cmd):
     def verify_attr_name_val(self, args):
         '''Verifies the attribute and and value
         to add to an instance from a list of arguments'''
+
         inst_objs_key = None
+
         if (((len(args) <= 2)) or (len(args) > 2)):
             try:
                 args_line = " ".join(arg for arg in args[:2])
@@ -176,12 +188,15 @@ class HBNBCommand(cmd.Cmd):
             inst_objs_key = self.verify_key(args_line)
             if (not inst_objs_key):
                 return (0)
+
         if (len(args) < 3):
             print("** attribute name missing **")
             return (0)
+
         if (len(args) < 4):
             print("** value missing **")
             return (0)
+
         attr = args[2]
         val = self.check_val_type(args[3], args)
         return (inst_objs_key, attr, val)
@@ -193,6 +208,7 @@ class HBNBCommand(cmd.Cmd):
         '''
         args = line.split()
         inst_objs_key_attr_val = self.verify_attr_name_val(args)
+
         if (inst_objs_key_attr_val):
             inst_key, inst_objs = inst_objs_key_attr_val[0]
             inst = inst_objs[inst_key]
