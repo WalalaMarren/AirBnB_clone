@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/python342
 '''A basis that defines common attributes/methods for other classes.
 
 This class is to be used to create sub-classes for the models package.
