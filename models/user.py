@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 '''A module that inherits from BaseModel to create an instance of a user.
 
 Classes:
