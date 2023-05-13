@@ -61,7 +61,7 @@ class BaseModel():
         and store the instance into a JSON file
         '''
         self.updated_at = datetime.now()
-        storage.save()
+        # storage.save()
 
     def to_dict(self):
         '''Creates a dictionary representation of the a base object.
