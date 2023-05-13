@@ -14,7 +14,6 @@ Attributes: None
 '''
 import uuid
 import json
-# from models import storage
 from datetime import datetime
 
 
