@@ -145,7 +145,6 @@ class HBNBCommand(cmd.Cmd):
     def check_val_type(self, attr_val, args=None):
         '''Determine what type to store the attribute value as'''
 
-        print("This is the attriubute we were given \n", attr_val)
         has_dqb = attr_val.startswith('"')
         has_dqe = attr_val.endswith('"')
         has_sqb = attr_val.startswith("'")
@@ -157,7 +156,6 @@ class HBNBCommand(cmd.Cmd):
 
         # Argument starts and ends with single or double quotes
         if ((has_dqb & has_dqe) or (has_sqb & has_sqe)):
-            print("Has all quotes")
             return (attr_val[1:-1])
 
         # Argument starts with but doesn't end with single or double quotes
@@ -238,7 +236,7 @@ class HBNBCommand(cmd.Cmd):
     def default(self, line):
         '''Function to call when a strange command is encountered'''
 
-        valid_commands = ["all()", "count()", "show", "destroy"]
+        valid_commands = ["all()", "count()", "show", "destroy", "update"]
         cls_name, command = line.split(".")
 
         try:
@@ -263,7 +261,6 @@ class HBNBCommand(cmd.Cmd):
                 inst_cls_name = inst_key.split(".")[0]
                 if (inst_cls_name == cls_name):
                     inst_count += 1
-
             print(inst_count)
 
         elif (command == "show"):
@@ -279,6 +276,17 @@ class HBNBCommand(cmd.Cmd):
                 inst_id = inst_id[:-2]
                 arg_line = cls_name + " " + inst_id
                 self.do_destroy(arg_line)
+            except Exception:
+                return (cmd.Cmd.default(self, line))
+
+        elif (command == "update"):
+            try:
+                split_args = inst_id.split('"')
+                inst_id = split_args[0]
+                attr = split_args[2]
+                val = split_args[4]
+                arg_line = cls_name + " " + inst_id + " " + attr + " " + val
+                self.do_update(arg_line)
             except Exception:
                 return (cmd.Cmd.default(self, line))
 
