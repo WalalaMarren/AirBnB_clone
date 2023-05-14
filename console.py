@@ -238,8 +238,13 @@ class HBNBCommand(cmd.Cmd):
     def default(self, line):
         '''Function to call when a strange command is encountered'''
 
-        valid_commands = ["all()", "count()"]
+        valid_commands = ["all()", "count()", "show", "destroy"]
         cls_name, command = line.split(".")
+
+        try:
+            command, inst_id = command.split('("')
+        except Exception:
+            pass
 
         if (cls_name not in self.classes):
             return (cmd.Cmd.default(self, line))
@@ -257,15 +262,13 @@ class HBNBCommand(cmd.Cmd):
                 if (inst_cls_name == cls_name):
                     inst_count += 1
             print(inst_count)
-
-        # inst_list = []
-        # inst_objs = storage.all()
-
-        # for inst_key, inst_obj in inst_objs.items():
-            # inst_key = inst_key.split(".")[0]
-            # if (inst_key == class_name):
-            # inst_list.append(inst_obj.__str__())
-        # print(inst_list)
+        elif (command == "show"):
+            try:
+                inst_id = inst_id[:-2]
+                arg_line = cls_name + " " + inst_id
+                self.do_show(arg_line)
+            except Exception:
+                return (cmd.Cmd.default(self, line))
 
 
 if __name__ == '__main__':
