@@ -67,8 +67,8 @@ class HBNBCommand(cmd.Cmd):
                 print("** class doesn't exist **")
             else:
                 class_instance = self.create_class(class_name)
-                print(class_instance.id)
                 storage.save()
+                print(class_instance.id)
 
     def verify_args(self, arg_line):
         '''Verifies the number and validity of arguments passed'''
@@ -234,6 +234,26 @@ class HBNBCommand(cmd.Cmd):
             attr, attr_val = inst_objs_key_attr_val[1:]
             inst.__dict__.update({attr: attr_val})
             storage.save()
+
+    def default(self, line):
+        '''Function to call when a strange command is encountered'''
+
+        valid_commands = ["all()"]
+        class_name, command = line.split(".")
+
+        if (class_name not in self.classes):
+            return (cmd.Cmd.default(self, line))
+        if (command not in valid_commands):
+            return (cmd.Cmd.default(self, line))
+
+        inst_list = []
+        inst_objs = storage.all()
+
+        for inst_key, inst_obj in inst_objs.items():
+            inst_key = inst_key.split(".")[0]
+            if (inst_key == class_name):
+                inst_list.append(inst_obj.__str__())
+        print(inst_list)
 
 
 if __name__ == '__main__':
