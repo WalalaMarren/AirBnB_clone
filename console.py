@@ -255,18 +255,30 @@ class HBNBCommand(cmd.Cmd):
 
         if (command == "all()"):
             self.do_all(cls_name)
+
         elif (command == "count()"):
             inst_count = 0
+
             for inst_key in inst_objs.keys():
                 inst_cls_name = inst_key.split(".")[0]
                 if (inst_cls_name == cls_name):
                     inst_count += 1
+
             print(inst_count)
+
         elif (command == "show"):
             try:
                 inst_id = inst_id[:-2]
                 arg_line = cls_name + " " + inst_id
                 self.do_show(arg_line)
+            except Exception:
+                return (cmd.Cmd.default(self, line))
+
+        elif (command == "destroy"):
+            try:
+                inst_id = inst_id[:-2]
+                arg_line = cls_name + " " + inst_id
+                self.do_destroy(arg_line)
             except Exception:
                 return (cmd.Cmd.default(self, line))
 
