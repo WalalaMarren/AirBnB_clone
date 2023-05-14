@@ -249,7 +249,7 @@ class HBNBCommand(cmd.Cmd):
         inst_objs = storage.all()
 
         if (command == "all()"):
-            self.do_all(class_name)
+            self.do_all(cls_name)
         elif (command == "count()"):
             inst_count = 0
             for inst_key in inst_objs.keys():
