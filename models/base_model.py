@@ -15,7 +15,7 @@ Attributes: None
 
 import uuid
 import json
-from models import storage
+# from models import storage
 from datetime import datetime
 
 
@@ -49,7 +49,7 @@ class BaseModel():
             # Record time and update later when changes are made
             self.updated_at = datetime.now()
             # Adds class instance to instance storer
-            storage.new(self)
+            # storage.new(self)
 
     def __str__(self):
         '''Displays a string representation of a base object'''
@@ -62,7 +62,7 @@ class BaseModel():
         and store the instance into a JSON file
         '''
         self.updated_at = datetime.now()
-        storage.save()
+        # storage.save()
 
     def to_dict(self):
         '''Creates a dictionary representation of the a base object.
