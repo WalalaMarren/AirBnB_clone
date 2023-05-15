@@ -1,6 +1,6 @@
 #!/usr/bin/python3
-'''A test for city instances
-This tests the functions and functionality of the user module
+'''A test for state instances
+This tests the functions and functionality of the   state module
 '''
 import uuid as u
 import unittest
@@ -13,7 +13,7 @@ class TestBaseModel(unittest.TestCase):
     '''A test for the city module'''
 
     def setUp(self):
-        '''Initialises City instances'''
+        '''Initialises two State intances'''
         self.inst_id = str(u.uuid4())
         self.t1 = d.now()
         self.t2 = d.now()
@@ -28,17 +28,9 @@ class TestBaseModel(unittest.TestCase):
         self.assertIsInstance(self.city_1, City)
         self.assertIsInstance(self.city_2, City)
 
-    def test_save(self):
-        '''Tests that updated_at is updated when the
-        instance is saved'''
-        c1_ut1 = self.city_1.updated_at
+    def test_cls_attributes(self):
+        '''Tests that the class attribute is correct'''
+        self.City = City
 
-        c1_id = self.city_1.id
-        c1_key = "City." + c1_id
-
-        self.city_1.save()
-        c1_ut2 = self.city_1.updated_at
-        all_objs = storage.all()
-
-        self.assertNotEqual(c1_ut1, c1_ut2)
-        self.assertIn(c1_key, all_objs.keys())
+        self.assertEqual(self.City.state_id, "")
+        self.assertEqual(self.City.name, "")
