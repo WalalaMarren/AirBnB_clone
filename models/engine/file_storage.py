@@ -40,25 +40,25 @@ class FileStorage():
         '''Initialises a file path and an object
         dictionary to store all objects'''
         self.__file_path = "file.json"
-        self.__object = {}
+        self.__objects = {}
 
     def all(self):
         '''Returns the class __object attribute'''
-        return (self.__object)
+        return (self.__objects)
 
     def new(self, inst):
         '''Adds an instance object to __object'''
         class_name = inst.__class__.__name__
         inst_id = inst.id
         inst_key = class_name + "." + inst_id
-        self.__object.update({inst_key: inst})
+        self.__objects.update({inst_key: inst})
 
     def save(self):
         '''Serializes instances to JSON file'''
         json_object = {}
         with open(self.__file_path, "w") as file:
-            for inst_key in self.__object:
-                inst = self.__object[inst_key]
+            for inst_key in self.__objects:
+                inst = self.__objects[inst_key]
                 inst_dict = inst.to_dict()
                 json_object[inst_key] = inst_dict
             json.dump(json_object, file)
@@ -83,7 +83,7 @@ class FileStorage():
                 #  Create an instance with each dict object
                 inst = self.create_instance(inst_obj)
                 # Add key : instance pair to __object
-                self.__object.update({inst_key: inst})
+                self.__objects.update({inst_key: inst})
         except Exception:
             # Do nothing
             pass
