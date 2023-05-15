@@ -36,7 +36,6 @@ class TestBaseModel(unittest.TestCase):
         self.user_1.password = "root"
         u1_dict = self.user_1.__dict__
 
-        self.assertEqual(self.user_1.password, "root")
         self.assertIn("Betty", u1_dict.values())
         self.assertIn("Bar", u1_dict.values())
         self.assertIn("airbnb@mail.com", u1_dict.values())
@@ -45,6 +44,10 @@ class TestBaseModel(unittest.TestCase):
         self.assertEqual(self.user_2.id, self.inst_id)
         self.assertEqual(self.user_2.created_at, self.t1)
         self.assertEqual(self.user_2.updated_at, self.t2)
+
+    def test_password(self):
+        self.user_1.password = "root"
+        self.assertEqual(self.user_1.password, "root")
 
     def test_save(self):
         '''Tests that updated_at is updated when the
