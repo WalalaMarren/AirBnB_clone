@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-'''A test for the base model.
+'''A test for base model instances.
 This tests the functions and functionality of the
 base module
 '''
