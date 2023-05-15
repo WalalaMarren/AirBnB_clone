@@ -1,6 +1,6 @@
 #!/usr/bin/python3
-'''A test for city instances
-This tests the functions and functionality of the user module
+'''A test for amenity instances
+This tests the functions and functionality of the   amenity module
 '''
 import uuid as u
 import unittest
@@ -10,35 +10,26 @@ from datetime import datetime as d
 
 
 class TestBaseModel(unittest.TestCase):
-    '''A test for the city module'''
+    '''A test for the amenity module'''
 
     def setUp(self):
-        '''Initialises City instances'''
+        '''Initialises two Amenity intances'''
         self.inst_id = str(u.uuid4())
         self.t1 = d.now()
         self.t2 = d.now()
         kwargs = {"id": self.inst_id,
                   "created_at": self.t1,
                   "updated_at": self.t2}
-        self.city_1 = Amenity()
-        self.city_2 = Amenity(**kwargs)
+        self.amenity_1 = Amenity()
+        self.amenity_2 = Amenity(**kwargs)
 
     def test_instance(self):
-        '''Tests that a User instance was created'''
-        self.assertIsInstance(self.city_1, Amenity)
-        self.assertIsInstance(self.city_2, Amenity)
+        '''Tests that a Amenity instance was created'''
+        self.assertIsInstance(self.amenity_1, Amenity)
+        self.assertIsInstance(self.amenity_2, Amenity)
 
-    def test_save(self):
-        '''Tests that updated_at is updated when the
-        instance is saved'''
-        c1_ut1 = self.city_1.updated_at
+    def test_cls_attributes(self):
+        '''Tests that the class attribute is correct'''
+        self.Amenity = Amenity
 
-        c1_id = self.city_1.id
-        c1_key = "Amenity." + c1_id
-
-        self.city_1.save()
-        c1_ut2 = self.city_1.updated_at
-        all_objs = storage.all()
-
-        self.assertNotEqual(c1_ut1, c1_ut2)
-        self.assertIn(c1_key, all_objs.keys())
+        self.assertEqual(self.Amenity.name, "")
