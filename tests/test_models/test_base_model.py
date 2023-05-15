@@ -38,6 +38,15 @@ class TestBaseModel(unittest.TestCase):
         self.assertIn(m1_key, saved_objs.keys())
         self.assertNotIn(m2_key, saved_objs.keys())
 
+    def test_str(self):
+        '''Confirms the string representation of the instance'''
+        name = self.model_1.__class__.__name__
+        m1_id = self.model_1.id
+        m1_dict = self.model_1.__dict__
+
+        inst_str = "[{}] ({}) {}".format(name, m1_id, m1_dict)
+        self.assertEqual(inst_str, str(self.model_1))
+
     def test_attributes(self):
         '''Tests the attributes of instance is correct'''
         self.model_1.name = "First Model"
