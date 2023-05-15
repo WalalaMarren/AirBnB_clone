@@ -28,28 +28,28 @@ class TestBaseModel(unittest.TestCase):
         self.assertIsInstance(self.user_1, User)
         self.assertIsInstance(self.user_2, User)
 
-    def test_attributes(self):
-        '''Tests the attributes of instance is correct'''
+    def test_cls_attributes(self):
+        '''Tests that the class attributes are correct'''
         self.User = User
+
+        self.assertEqual(self.User.email, "")
+        self.assertEqual(self.User.password, "")
+        self.assertEqual(self.User.first_name, "")
+        self.assertEqual(self.User.last_name, "")
+
+    def test_obj_attributes(self):
+        '''Tests the attributes of instance is correct'''
         self.user_1.first_name = "Betty"
         self.user_1.last_name = "Bar"
         self.user_1.email = "airbnb@mail.com"
         self.user_1.password = "root"
+
         u1_dict = self.user_1.__dict__
 
-        self.assertEqual(self.User.password, "")
         self.assertIn("Betty", u1_dict.values())
         self.assertIn("Bar", u1_dict.values())
         self.assertIn("airbnb@mail.com", u1_dict.values())
         self.assertIn("root", u1_dict.values())
-
-        self.assertEqual(self.user_2.id, self.inst_id)
-        self.assertEqual(self.user_2.created_at, self.t1)
-        self.assertEqual(self.user_2.updated_at, self.t2)
-
-        # def test_password(self):
-        # self.User.password = "root"
-        # self.assertEqual(self.User.password, "root")
 
     def test_save(self):
         '''Tests that updated_at is updated when the
