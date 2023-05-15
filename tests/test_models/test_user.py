@@ -35,6 +35,8 @@ class TestBaseModel(unittest.TestCase):
         self.user_1.email = "airbnb@mail.com"
         self.user_1.password = "root"
         u1_dict = self.user_1.__dict__
+
+        self.assertEqual(self.user_1.password, "root")
         self.assertIn("Betty", u1_dict.values())
         self.assertIn("Bar", u1_dict.values())
         self.assertIn("airbnb@mail.com", u1_dict.values())
