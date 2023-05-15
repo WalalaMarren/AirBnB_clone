@@ -52,11 +52,7 @@ class BaseModel():
             storage.new(self)
 
     def __str__(self):
-        '''Displays a string representation of a base object
-        using the class_name, instance id and the
-        dictionary of the instance attributes
-        [class_name] (instance id) {instance_dictionary}
-        '''
+        '''Displays a string representation of a base object'''
         cls_name = self.__class__.__name__
         inst_id = self.id
         inst_dict = self.__dict__
