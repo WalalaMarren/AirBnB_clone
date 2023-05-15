@@ -41,6 +41,8 @@ class TestBaseModel(unittest.TestCase):
         self.assertEqual(self.model_2.updated_at, self.t2)
 
     def test_save(self):
+        '''Tests that updated_at is updated when the
+        instance is saved'''
         m1_ut1 = self.model_1.updated_at
         self.model_1.save()
         m1_ut2 = self.model_1.updated_at
@@ -50,6 +52,10 @@ class TestBaseModel(unittest.TestCase):
         self.assertNotEqual(self.t2, m2_ut2)
 
     def test_to_dict(self):
+        '''Tests that the to_dict() method of the instance.
+        It confirms the the to_dict() method returns a
+        dictionary with a __class__ attribute, and
+        the datetime attributes converted to string format'''
         m1_json = self.model_1.to_dict()
         m2_json = self.model_2.to_dict()
 
