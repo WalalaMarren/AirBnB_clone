@@ -5,6 +5,7 @@ base module
 '''
 import unittest
 import uuid as u
+from models import storage
 from datetime import datetime as d
 from models.base_model import BaseModel
 
@@ -24,9 +25,18 @@ class TestBaseModel(unittest.TestCase):
         self.model_2 = BaseModel(**kwargs)
 
     def test_instance(self):
-        '''Tests that BaseModel instance was created'''
+        '''Tests that BaseModel instance was created
+        and added to file"storage's __object attribute'''
         self.assertIsInstance(self.model_1, BaseModel)
         self.assertIsInstance(self.model_2, BaseModel)
+        saved_objs = storage.all()
+
+        name = "BaseModel"
+        m1_key = name + "." + self.model_1.id
+        m2_key = name + "." + self.inst_id
+
+        self.assertIn(m1_key, saved_objs.keys())
+        self.assertNotIn(m2_key, saved_objs.keys())
 
     def test_attributes(self):
         '''Tests the attributes of instance is correct'''
@@ -46,10 +56,20 @@ class TestBaseModel(unittest.TestCase):
         m1_ut1 = self.model_1.updated_at
         self.model_1.save()
         m1_ut2 = self.model_1.updated_at
+
         self.model_2.save()
         m2_ut2 = self.model_2.updated_at
+
         self.assertNotEqual(m1_ut1, m1_ut2)
         self.assertNotEqual(self.t2, m2_ut2)
+
+        saved_objs = storage.all()
+        name = "BaseModel"
+        m1_key = name + "." + self.model_1.id
+        m2_key = name + "." + self.inst_id
+
+        self.assertIn(m1_key, saved_objs.keys())
+        self.assertNotIn(m2_key, saved_objs.keys())
 
     def test_to_dict(self):
         '''Tests that the to_dict() method of the instance.
