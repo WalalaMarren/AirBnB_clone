@@ -36,8 +36,11 @@ class FileStorage():
     Exceptions : None
     '''
 
-    __file_path = "file.json"
-    __object = {}
+    def __init__(self):
+        '''Initialises a file path and an object
+        dictionary to store all objects'''
+        self.__file_path = "file.json"
+        self.__object = {}
 
     def all(self):
         '''Returns the class __object attribute'''
