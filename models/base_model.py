@@ -53,8 +53,10 @@ class BaseModel():
 
     def __str__(self):
         '''Displays a string representation of a base object'''
-        return (f"{[self.__class__.__name__]} "
-                f"({self.id}) {self.__dict__}")
+        cls_name = self.__class__.__name__
+        inst_id = self.id
+        inst_dict = self.__dict__
+        return ("[{}] ({}) {}".format(cls_name, inst_id, inst_dict))
 
     def save(self):
         '''
