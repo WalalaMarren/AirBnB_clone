@@ -96,6 +96,7 @@ class BaseModel():
             if ((key == "created_at") or (key == "updated_at")):
                 try:
                     time = ins_dict[key]
-                    ins_dict[key] = datetime.strptime(time, "%Y-%m-%dT%H:%M:%S.%f")
+                    time_format = "%Y-%m-%dT%H:%M:%S.%f"
+                    ins_dict[key] = datetime.strptime(time, time_format)
                 except Exception:
                     pass
