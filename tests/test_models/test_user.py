@@ -46,8 +46,8 @@ class TestBaseModel(unittest.TestCase):
         self.assertEqual(self.user_2.updated_at, self.t2)
 
     def test_password(self):
-        self.user_1.password = "root"
-        self.assertEqual(self.user_1.password, "root")
+        self.User.password = "root"
+        self.assertEqual(self.User.password, "root")
 
     def test_save(self):
         '''Tests that updated_at is updated when the
