@@ -5,6 +5,10 @@ from models.base_model import BaseModel
 
 class Place(BaseModel):
     '''Defines the properties and  attributes of a room'''
+
+class Place(BaseModel):
+    '''sets the attributes to empty strings'''
+
     city_id = ""
     user_id = ""
     name = ""
