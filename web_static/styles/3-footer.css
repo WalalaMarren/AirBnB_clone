@@ -3,6 +3,6 @@ footer{
     height: 60px;
     width: 100%;
     text-align: center;
-    border-top: 1px #CCCCCC;
-    border-top: 0.005px solid;
+    border-top:1px solid #DDDDDD;
+    margin-top: auto;
 }
